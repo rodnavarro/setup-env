@@ -1,4 +1,4 @@
-# setup-env
+# skills
 
 A multi-agent Claude Code workspace in a few minutes, without setting anything up by hand.
 
@@ -14,13 +14,13 @@ Each runs in its own folder under `~/agents`, with its role in a `CLAUDE.md` you
 **Windows** (PowerShell):
 
 ```powershell
-powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/rodnavarro/setup-env/main/install.ps1 | iex"
+powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/rodnavarro/skills/main/install.ps1 | iex"
 ```
 
 **macOS and Linux:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rodnavarro/setup-env/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/rodnavarro/skills/main/install.sh | bash
 ```
 
 Then run `herdr`. The first time, each tab asks whether you trust its folder: choose **Yes**. Sign in to Claude when it asks.

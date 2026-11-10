@@ -1,6 +1,6 @@
 # setup-env for Windows: a multi-agent Claude Code workspace in a few minutes.
 #
-#   powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/rodnavarro/setup-env/main/install.ps1 | iex"
+#   powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/rodnavarro/skills/main/install.ps1 | iex"
 #
 # What it does, each step skipped when it's already done:
 #   1. Installs Claude Code and herdr, if they're missing.
@@ -13,7 +13,7 @@
 # SETUP_ENV_SESSION=<name> uses a named herdr session instead of the default one, and
 # SETUP_ENV_AGENTS_DIR another folder (default: the agents folder in your home) for the agents' folders.
 $ErrorActionPreference = 'Stop'
-$Base = 'https://raw.githubusercontent.com/rodnavarro/setup-env/main'
+$Base = 'https://raw.githubusercontent.com/rodnavarro/skills/main'
 $Stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 
 function Say($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # setup-env for macOS and Linux: a multi-agent Claude Code workspace in a few minutes.
 #
-#   curl -fsSL https://raw.githubusercontent.com/rodnavarro/setup-env/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/rodnavarro/skills/main/install.sh | bash
 #
 # What it does, each step skipped when it's already done:
 #   1. Installs Claude Code and herdr, if they're missing.
@@ -15,7 +15,7 @@
 # SETUP_ENV_SESSION=<name> uses a named herdr session instead of the default one, and
 # SETUP_ENV_AGENTS_DIR another folder than ~/agents for the agents' folders.
 set -euo pipefail
-BASE=https://raw.githubusercontent.com/rodnavarro/setup-env/main
+BASE=https://raw.githubusercontent.com/rodnavarro/skills/main
 STAMP=$(date +%Y%m%d-%H%M%S)
 HERE=$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || echo "")
 
