@@ -65,7 +65,7 @@ fi
 CLAUDE_DIR="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 mkdir -p "$CLAUDE_DIR"
 if command -v node >/dev/null; then
-  asset claude/statusline.cjs > "$CLAUDE_DIR/statusline.cjs"
+  asset skills/set-status-bar/scripts/statusline.cjs > "$CLAUDE_DIR/statusline.cjs"
   SETTINGS="$CLAUDE_DIR/settings.json"
   COMMAND="node \"$CLAUDE_DIR/statusline.cjs\""
   CURRENT=$(node -e 'try{process.stdout.write(require(process.argv[1]).statusLine.command||"")}catch{}' "$SETTINGS" 2>/dev/null || true)
