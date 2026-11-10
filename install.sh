@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# setup-env for macOS and Linux: a multi-agent Claude Code workspace in a few minutes.
+# skills for macOS and Linux: a multi-agent Claude Code workspace in a few minutes.
 #
 #   curl -fsSL https://raw.githubusercontent.com/rodnavarro/skills/main/install.sh | bash
 #

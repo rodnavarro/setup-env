@@ -1,4 +1,4 @@
-# setup-env for Windows: a multi-agent Claude Code workspace in a few minutes.
+# skills for Windows: a multi-agent Claude Code workspace in a few minutes.
 #
 #   powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/rodnavarro/skills/main/install.ps1 | iex"
 #
