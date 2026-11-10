@@ -89,11 +89,11 @@ $claudeDir = if ($env:CLAUDE_CONFIG_DIR) { $env:CLAUDE_CONFIG_DIR } else { Join-
 New-Item -ItemType Directory -Force $claudeDir | Out-Null
 if (Get-Command node -ErrorAction SilentlyContinue) {
   $script = Join-Path $claudeDir 'statusline.cjs'
-  WriteText $script (Asset 'claude\statusline.cjs')
+  WriteText $script (Asset 'skills\set-status-bar\scripts\statusline.cjs')
   $command = "node `"$($script -replace '\\', '/')`""
 } else {
   $script = Join-Path $claudeDir 'statusline.ps1'
-  WriteText $script (Asset 'claude\statusline.ps1')
+  WriteText $script (Asset 'skills\set-status-bar\scripts\statusline.ps1')
   $command = "powershell -NoProfile -ExecutionPolicy Bypass -File `"$($script -replace '\\', '/')`""
 }
 $settingsPath = Join-Path $claudeDir 'settings.json'

@@ -39,7 +39,7 @@ Running it again is safe: every step that's already done is skipped. Nothing is 
 ## Files
 
 - `install.ps1`, `install.sh`: the installers.
-- `claude/statusline.cjs`: the status line (Node.js). `claude/statusline.ps1` does the same on Windows without Node.js.
+- `skills/set-status-bar/`: the status line as a Claude Code skill (`SKILL.md`), with its script (`scripts/statusline.cjs`, Node.js) and a PowerShell twin for Windows without Node.js (`scripts/statusline.ps1`). Ask Claude to "set my status bar" to run it on its own.
 - `herdr/config.toml`: herdr's theme.
 - `roles/coordinator.md`, `roles/researcher.md`: each agent's role, copied to its folder as `CLAUDE.md`.
 
