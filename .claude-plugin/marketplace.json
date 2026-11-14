@@ -1,0 +1,16 @@
+{
+  "name": "rodnavarro-skills",
+  "owner": {
+    "name": "Rod Navarro"
+  },
+  "metadata": {
+    "description": "Claude Code plugins from rodnavarro/skills."
+  },
+  "plugins": [
+    {
+      "name": "status-bar",
+      "source": "./skills/set-status-bar",
+      "description": "Keeps the status line script in ~/.claude up to date: context used, the 5-hour and 7-day limits, the model and the git branch."
+    }
+  ]
+}
