@@ -44,6 +44,10 @@ Running it again is safe: every step that's already done is skipped. Nothing is 
 - `herdr/config.toml`: herdr's theme.
 - `roles/coordinator.md`, `roles/researcher.md`: each agent's role, copied to its folder as `CLAUDE.md`.
 
+## If Claude shows in black and white
+
+That's `NO_COLOR=1` reaching the tabs. Claude Code's own shell sets it, so a herdr server started by an agent (for example, when you ask Claude to run this installer) passes it to every pane. The installer now removes it before it starts herdr and when it starts Claude in each tab. A herdr server that was already running with it keeps it: in that tab, run `Remove-Item Env:NO_COLOR` (Windows) or `unset NO_COLOR` (macOS, Linux) and start `claude` again. Or run `herdr server stop` from your own terminal, not from Claude, and open `herdr` again, which closes every tab.
+
 ## Trying it without touching your setup
 
 `SETUP_ENV_SESSION=<name>` puts the workspace in a separate herdr session, `SETUP_ENV_AGENTS_DIR` puts the agents' folders elsewhere, and `CLAUDE_CONFIG_DIR` points Claude Code's settings to another folder. A Claude alias (the `claude-aliases` skill) does that last part for you, one command per account.

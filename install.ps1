@@ -13,6 +13,12 @@
 # SETUP_ENV_SESSION=<name> uses a named herdr session instead of the default one, and
 # SETUP_ENV_AGENTS_DIR another folder (default: the agents folder in your home) for the agents' folders.
 $ErrorActionPreference = 'Stop'
+
+# Colors. An agent's shell (Claude Code's PowerShell tool) sets NO_COLOR=1. A herdr server started
+# from it passes that to every pane, and Claude Code in each tab draws in black and white. So this
+# script drops it before starting anything, and each tab starts Claude without it.
+Remove-Item Env:NO_COLOR -ErrorAction SilentlyContinue
+$StartClaude = 'Remove-Item Env:NO_COLOR -ErrorAction SilentlyContinue; claude'
 $Base = 'https://raw.githubusercontent.com/rodnavarro/skills/main'
 $Stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 
@@ -134,7 +140,7 @@ if ($ws) {
   $created = (Api workspace create --label main --cwd (Join-Path $agents 'coordinator') --no-focus).result
   $wsId = $created.workspace.workspace_id
   Api tab rename $created.tab.tab_id coordinator | Out-Null
-  Api pane run $created.root_pane.pane_id claude | Out-Null
+  Api pane run $created.root_pane.pane_id $StartClaude | Out-Null
 }
 
 $tabs = (Api tab list --workspace $wsId).result.tabs
@@ -142,7 +148,7 @@ foreach ($role in 'coordinator', 'researcher') {
   if ($tabs | Where-Object { $_.label -eq $role }) { continue }
   Say "Adding the tab $role"
   $tab = (Api tab create --workspace $wsId --label $role --cwd (Join-Path $agents $role)).result
-  Api pane run $tab.root_pane.pane_id claude | Out-Null
+  Api pane run $tab.root_pane.pane_id $StartClaude | Out-Null
 }
 
 Say "Done. Open it with: herdr$(if ($env:SETUP_ENV_SESSION) { " session attach $env:SETUP_ENV_SESSION" })"
