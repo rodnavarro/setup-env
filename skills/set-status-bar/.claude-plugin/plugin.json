@@ -1,0 +1,7 @@
+{
+  "name": "status-bar",
+  "description": "Keeps the status line script in ~/.claude up to date: context used, the 5-hour and 7-day limits, the model and the git branch.",
+  "version": "1.0.0",
+  "author": { "name": "Rod Navarro" },
+  "license": "MIT"
+}

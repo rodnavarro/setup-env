@@ -40,6 +40,17 @@ Running it again is safe: every step that's already done is skipped. Nothing is 
 
 - `install.ps1`, `install.sh`: the installers.
 - `skills/set-status-bar/`: the status line as a Claude Code skill (`SKILL.md`), with its script (`scripts/statusline.cjs`, Node.js) and a PowerShell twin for Windows without Node.js (`scripts/statusline.ps1`). Ask Claude to "set my status bar" to run it on its own.
+- `.claude-plugin/marketplace.json`: this repo as a Claude Code plugin marketplace, with one plugin, **status-bar** (`skills/set-status-bar/`). Its SessionStart hook keeps `~/.claude/statusline.cjs` up to date, so an organization can give everyone the status line from its managed settings, with nothing to install by hand:
+
+  ```json
+  {
+    "extraKnownMarketplaces": { "rodnavarro-skills": { "source": { "source": "github", "repo": "rodnavarro/skills" } } },
+    "enabledPlugins": { "status-bar@rodnavarro-skills": true },
+    "statusLine": { "type": "command", "command": "node \"$HOME/.claude/statusline.cjs\"" }
+  }
+  ```
+
+  Needs Node.js on every machine. The status line shows from the second session: the first one installs the plugin.
 - `skills/claude-aliases/`: Claude Code aliases as a skill: a command like `claude-work` that starts Claude Code with its own login, settings, skills and history, kept apart from plain `claude`. It covers creating, signing in, listing, renaming, removing and fixing aliases. Ask Claude to "add a Claude alias" to run it.
 - `herdr/config.toml`: herdr's theme.
 - `roles/coordinator.md`, `roles/researcher.md`: each agent's role, copied to its folder as `CLAUDE.md`.
