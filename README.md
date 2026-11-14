@@ -40,12 +40,13 @@ Running it again is safe: every step that's already done is skipped. Nothing is 
 
 - `install.ps1`, `install.sh`: the installers.
 - `skills/set-status-bar/`: the status line as a Claude Code skill (`SKILL.md`), with its script (`scripts/statusline.cjs`, Node.js) and a PowerShell twin for Windows without Node.js (`scripts/statusline.ps1`). Ask Claude to "set my status bar" to run it on its own.
+- `skills/claude-aliases/`: Claude Code aliases as a skill: a command like `claude-work` that starts Claude Code with its own login, settings, skills and history, kept apart from plain `claude`. It covers creating, signing in, listing, renaming, removing and fixing aliases. Ask Claude to "add a Claude alias" to run it.
 - `herdr/config.toml`: herdr's theme.
 - `roles/coordinator.md`, `roles/researcher.md`: each agent's role, copied to its folder as `CLAUDE.md`.
 
 ## Trying it without touching your setup
 
-`SETUP_ENV_SESSION=<name>` puts the workspace in a separate herdr session, `SETUP_ENV_AGENTS_DIR` puts the agents' folders elsewhere, and `CLAUDE_CONFIG_DIR` points Claude Code's settings to another folder.
+`SETUP_ENV_SESSION=<name>` puts the workspace in a separate herdr session, `SETUP_ENV_AGENTS_DIR` puts the agents' folders elsewhere, and `CLAUDE_CONFIG_DIR` points Claude Code's settings to another folder. A Claude alias (the `claude-aliases` skill) does that last part for you, one command per account.
 
 ## License
 
