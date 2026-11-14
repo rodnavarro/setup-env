@@ -14,11 +14,16 @@
 # SETUP_ENV_AGENTS_DIR another folder (default: the agents folder in your home) for the agents' folders.
 $ErrorActionPreference = 'Stop'
 
-# Colors. An agent's shell (Claude Code's PowerShell tool) sets NO_COLOR=1. A herdr server started
-# from it passes that to every pane, and Claude Code in each tab draws in black and white. So this
-# script drops it before starting anything, and each tab starts Claude without it.
-Remove-Item Env:NO_COLOR -ErrorAction SilentlyContinue
-$StartClaude = 'Remove-Item Env:NO_COLOR -ErrorAction SilentlyContinue; claude'
+# When an agent runs this (you ask Claude to install it), its shell carries that Claude session's
+# markers: NO_COLOR=1, CLAUDE_CODE_CHILD_SESSION=1, its session id and socket. A herdr server started
+# from it passes them to every pane, and Claude Code in each tab draws in black and white and doesn't
+# save transcripts ("inherited CLAUDE_CODE_CHILD_SESSION marker"). So this script drops them before
+# starting anything, and each tab starts Claude without them.
+$Inherited = 'NO_COLOR', 'CLAUDECODE', 'CLAUDE_CODE_CHILD_SESSION', 'CLAUDE_CODE_SESSION_ID', 'CLAUDE_CODE_SESSION_ATTENDED',
+  'CLAUDE_CODE_ENTRYPOINT', 'CLAUDE_CODE_EXECPATH', 'CLAUDE_CODE_MESSAGING_SOCKET', 'CLAUDE_CODE_MESSAGING_TOKEN',
+  'CLAUDE_PID', 'CLAUDE_EFFORT', 'AI_AGENT'
+foreach ($v in $Inherited) { Remove-Item "Env:$v" -ErrorAction SilentlyContinue }
+$StartClaude = (($Inherited | ForEach-Object { "Remove-Item Env:$_ -ErrorAction SilentlyContinue" }) + 'claude') -join '; '
 $Base = 'https://raw.githubusercontent.com/rodnavarro/skills/main'
 $Stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 

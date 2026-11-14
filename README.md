@@ -44,9 +44,9 @@ Running it again is safe: every step that's already done is skipped. Nothing is 
 - `herdr/config.toml`: herdr's theme.
 - `roles/coordinator.md`, `roles/researcher.md`: each agent's role, copied to its folder as `CLAUDE.md`.
 
-## If Claude shows in black and white
+## If Claude shows in black and white, or says "Transcript saving is off"
 
-That's `NO_COLOR=1` reaching the tabs. Claude Code's own shell sets it, so a herdr server started by an agent (for example, when you ask Claude to run this installer) passes it to every pane. The installer now removes it before it starts herdr and when it starts Claude in each tab. A herdr server that was already running with it keeps it: in that tab, run `Remove-Item Env:NO_COLOR` (Windows) or `unset NO_COLOR` (macOS, Linux) and start `claude` again. Or run `herdr server stop` from your own terminal, not from Claude, and open `herdr` again, which closes every tab.
+The full warning is `Transcript saving is off — inherited CLAUDE_CODE_CHILD_SESSION marker`. Both come from the same place: a herdr server started by an agent (for example, when you ask Claude to run this installer) passes that Claude session's markers to every pane, `NO_COLOR=1` and `CLAUDE_CODE_CHILD_SESSION=1` among them. The installer now removes them before it starts herdr and when it starts Claude in each tab. A herdr server that was already running with them keeps them: run `herdr server stop` from your own terminal, not from Claude, and open `herdr` again, which closes every tab.
 
 ## Trying it without touching your setup
 
