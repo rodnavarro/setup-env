@@ -40,17 +40,17 @@ Running it again is safe: every step that's already done is skipped. Nothing is 
 
 - `install.ps1`, `install.sh`: the installers.
 - `skills/set-status-bar/`: the status line as a Claude Code skill (`SKILL.md`), with its script (`scripts/statusline.cjs`, Node.js) and a PowerShell twin for Windows without Node.js (`scripts/statusline.ps1`). Ask Claude to "set my status bar" to run it on its own.
-- `.claude-plugin/marketplace.json`: this repo as a Claude Code plugin marketplace, with one plugin, **status-bar** (`skills/set-status-bar/`). Its SessionStart hook keeps `~/.claude/statusline.cjs` up to date, so an organization can give everyone the status line from its managed settings, with nothing to install by hand:
+- `.claude-plugin/marketplace.json`: this repo as a Claude Code plugin marketplace, with one plugin, **status-bar** (`skills/set-status-bar/`). Its SessionStart hook keeps `statusline.cjs` up to date in Claude Code's settings folder (`$CLAUDE_CONFIG_DIR`, or `~/.claude`), so each alias has its own copy, and an organization can give everyone the status line from its managed settings, with nothing to install by hand. Pin a release tag with `ref`:
 
   ```json
   {
-    "extraKnownMarketplaces": { "rodnavarro-skills": { "source": { "source": "github", "repo": "rodnavarro/skills" } } },
+    "extraKnownMarketplaces": { "rodnavarro-skills": { "source": { "source": "github", "repo": "rodnavarro/skills", "ref": "v1.0.1" } } },
     "enabledPlugins": { "status-bar@rodnavarro-skills": true },
-    "statusLine": { "type": "command", "command": "node \"$HOME/.claude/statusline.cjs\"" }
+    "statusLine": { "type": "command", "command": "node -e \"require(require('path').join(process.env.CLAUDE_CONFIG_DIR||require('os').homedir()+'/.claude','statusline.cjs'))\"" }
   }
   ```
 
-  Needs Node.js on every machine.
+  The command works the same in bash, PowerShell and cmd. Needs Node.js on every machine.
 - `skills/claude-aliases/`: Claude Code aliases as a skill: a command like `claude-work` that starts Claude Code with its own login, settings, skills and history, kept apart from plain `claude`. It covers creating, signing in, listing, renaming, removing and fixing aliases. Ask Claude to "add a Claude alias" to run it.
 - `herdr/config.toml`: herdr's theme.
 - `roles/coordinator.md`, `roles/researcher.md`: each agent's role, copied to its folder as `CLAUDE.md`.
