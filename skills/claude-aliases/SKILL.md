@@ -62,7 +62,7 @@ The person running this is probably not an engineer. Do every step yourself, exp
 A new alias starts empty: no status bar, no skills, no permissions. Ask what the person wants carried over, then copy only that:
 
 - **Skills:** copy the skill folders they want into `~/.claude-work/skills/`. Skills from a shared repository go in the alias's `skills` folder, not `~/.claude/skills`.
-- **Status bar:** run the `set-status-bar` skill from inside `claude-work`. It installs into the folder of the session it runs in.
+- **Status bar:** run the `set-status-bar` skill from inside `claude-work`. It installs into the folder of the session it runs in: the script goes to `~/.claude-work/statusline.cjs` and `~/.claude-work/settings.json` points at that copy. Never point an alias's `statusLine` at another folder's script (such as `~/.claude/statusline.cjs`): the aliases would share it, and changing or removing one would change or break the others. If the account's organization sets the status bar in its managed settings, there's nothing to do: the firm's plugin keeps a copy in the alias's own folder.
 - **Settings:** if they want the same permissions or preferences, copy the relevant keys from `~/.claude/settings.json` into `~/.claude-work/settings.json`. Never copy the whole folder: it would carry the other login, history and memory across.
 - **Instructions:** a personal `CLAUDE.md` belongs to one alias. `~/.claude-work/CLAUDE.md` is where instructions for this account go.
 
@@ -92,6 +92,7 @@ Past conversations move with the folder. Anything that referred to the old comma
 - **`claude-work` is not recognized / command not found:** the launcher isn't in a folder on the PATH, or on Mac it isn't executable (`chmod +x`). Open a new terminal after changing the PATH.
 - **It opens the wrong account:** it's probably plain `claude` being run, or the launcher points at the wrong folder. Read the launcher and check the folder name, then `/status`.
 - **It asks to log in every time:** the folder name in the launcher doesn't match the folder that exists, so Claude starts a fresh empty one. Make them match.
+- **The status bar is missing, or changed in several aliases at once:** read `statusLine` in the alias's `settings.json`. If it points into another alias's folder (often `~/.claude/statusline.cjs`), run `set-status-bar` inside this alias so it gets its own copy.
 - **Plain `claude` started using the alias's account:** `CLAUDE_CONFIG_DIR` was set permanently somewhere (Windows environment variables, or a `.zshrc`/`.bashrc` line). Remove that permanent setting: the launchers are the only place it should be set.
 
 ## What it doesn't cover
