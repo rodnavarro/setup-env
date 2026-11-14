@@ -15,6 +15,17 @@
 # SETUP_ENV_SESSION=<name> uses a named herdr session instead of the default one, and
 # SETUP_ENV_AGENTS_DIR another folder than ~/agents for the agents' folders.
 set -euo pipefail
+
+# When an agent runs this (you ask Claude to install it), its shell carries that Claude session's
+# markers: NO_COLOR=1, CLAUDE_CODE_CHILD_SESSION=1, its session id and socket. A herdr server started
+# from it passes them to every pane, and Claude Code in each tab draws in black and white and doesn't
+# save transcripts ("inherited CLAUDE_CODE_CHILD_SESSION marker"). So this script drops them before
+# starting anything, and each tab starts Claude without them.
+INHERITED=(NO_COLOR CLAUDECODE CLAUDE_CODE_CHILD_SESSION CLAUDE_CODE_SESSION_ID CLAUDE_CODE_SESSION_ATTENDED
+  CLAUDE_CODE_ENTRYPOINT CLAUDE_CODE_EXECPATH CLAUDE_CODE_MESSAGING_SOCKET CLAUDE_CODE_MESSAGING_TOKEN
+  CLAUDE_PID CLAUDE_EFFORT AI_AGENT)
+unset "${INHERITED[@]}"
+START_CLAUDE="env$(printf ' -u %s' "${INHERITED[@]}") claude"
 BASE=https://raw.githubusercontent.com/rodnavarro/skills/main
 STAMP=$(date +%Y%m%d-%H%M%S)
 HERE=$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" 2>/dev/null && pwd || echo "")
@@ -109,7 +120,7 @@ else
   OUT=$(hd workspace create --label main --cwd "$AGENTS/coordinator" --no-focus)
   WS=$(echo "$OUT" | field workspace_id)
   hd tab rename "$(echo "$OUT" | field tab_id)" coordinator >/dev/null
-  hd pane run "$(echo "$OUT" | field pane_id)" claude >/dev/null
+  hd pane run "$(echo "$OUT" | field pane_id)" "$START_CLAUDE" >/dev/null
 fi
 
 TABS=$(hd tab list --workspace "$WS")
@@ -117,7 +128,7 @@ for role in coordinator researcher; do
   echo "$TABS" | grep -q "\"label\":\"$role\"" && continue
   say "Adding the tab $role"
   OUT=$(hd tab create --workspace "$WS" --label "$role" --cwd "$AGENTS/$role")
-  hd pane run "$(echo "$OUT" | field pane_id)" claude >/dev/null
+  hd pane run "$(echo "$OUT" | field pane_id)" "$START_CLAUDE" >/dev/null
 done
 
 if [ -n "${SETUP_ENV_SESSION:-}" ]; then say "Done. Open it with: herdr session attach $SETUP_ENV_SESSION"; else say "Done. Open it with: herdr"; fi
